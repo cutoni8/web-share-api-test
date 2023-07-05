@@ -1,27 +1,27 @@
 import { FC, ReactNode } from 'react'
 
 interface Props {
-    children: React.ReactNode;
-    shareData: ShareData;
-    onSuccess?: () => void;
-    onError?: (error?: unknown) => void;
-    onNonNativeShare?: () => void;
-    onInteraction?: () => void;
-    disabled?: boolean;
+    children: ReactNode
+    shareData: ShareData
+    onSuccess?: () => void
+    onError?: (error?: unknown) => void
+    onNonNativeShare?: () => void // handle the cases when a Native share experience isn't available.
+    onInteraction?: () => void  //  called when the share button is clicked.
+    disabled?: boolean
 }
 
-const WebShareApi: FC<Props> = ({ children, shareData, onInteraction, onSuccess, onError, onNonNativeShare, disabled, }) => {
+const WebShareApi: FC<Props> = ({ children, shareData, onInteraction, onSuccess, onError, onNonNativeShare, disabled }) => {
     const handleOnClick = async () => {
-        onInteraction && onInteraction();
+        onInteraction && onInteraction()
         if (navigator.share) {
             try {
-                await navigator.share(shareData);
-                onSuccess && onSuccess();
+                await navigator.share(shareData)
+                onSuccess && onSuccess()
             } catch (err) {
-                onError && onError(err);
+                onError && onError(err)
             }
         } else {
-            onNonNativeShare && onNonNativeShare();
+            onNonNativeShare && onNonNativeShare()
         }
     }
 
